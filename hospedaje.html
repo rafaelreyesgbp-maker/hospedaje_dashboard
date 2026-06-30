@@ -188,8 +188,8 @@ const MONTH_LABELS = {
   7:"Julio",8:"Agosto",9:"Septiembre",10:"Octubre",11:"Noviembre",12:"Diciembre"
 };
 
-let allData = {"1":{"mes_label":"Enero","mes_num":1,"meta":16765704,"dominant_period":0,"ref_months":[],"acumulado_real":0,"total_omisos":0,"total_esperado":0,"proyeccion_cierre":0,"meta_cruzada":false,"pct_acumulado":0.0,"pct_proyeccion":0.0,"segmentos":{},"omisos":[]},"2":{"mes_label":"Febrero","mes_num":2,"meta":15528008,"dominant_period":0,"ref_months":[],"acumulado_real":0,"total_omisos":0,"total_esperado":0,"proyeccion_cierre":0,"meta_cruzada":false,"pct_acumulado":0.0,"pct_proyeccion":0.0,"segmentos":{},"omisos":[]},"3":{"mes_label":"Marzo","mes_num":3,"meta":15696442,"dominant_period":0,"ref_months":[],"acumulado_real":0,"total_omisos":0,"total_esperado":0,"proyeccion_cierre":0,"meta_cruzada":false,"pct_acumulado":0.0,"pct_proyeccion":0.0,"segmentos":{},"omisos":[]},"4":{"mes_label":"Abril","mes_num":4,"meta":15728438,"dominant_period":0,"ref_months":[],"acumulado_real":0,"total_omisos":0,"total_esperado":0,"proyeccion_cierre":0,"meta_cruzada":false,"pct_acumulado":0.0,"pct_proyeccion":0.0,"segmentos":{},"omisos":[]},"5":{"mes_label":"Mayo","mes_num":5,"meta":14668401,"dominant_period":0,"ref_months":[],"acumulado_real":0,"total_omisos":0,"total_esperado":0,"proyeccion_cierre":0,"meta_cruzada":false,"pct_acumulado":0.0,"pct_proyeccion":0.0,"segmentos":{},"omisos":[]},"6":{"mes_label":"Junio","mes_num":6,"meta":13065948,"dominant_period":202605,"ref_months":[],"acumulado_real":0,"total_omisos":0,"total_esperado":0,"proyeccion_cierre":0,"meta_cruzada":false,"pct_acumulado":0.0,"pct_proyeccion":0.0,"segmentos":{},"omisos":[]}};
-var lastUpdated = '30/06/2026 09:37';
+let allData = {};
+var lastUpdated = '';
 // Totales reales de recaudación de Hospedaje por mes en 2025 (enero a diciembre)
 const PREV_YEAR_TOTALS = [17181838,17239964,16991252,17746000,15075887,13542804,14086552,16086465,18251188,15865876,15799923,19033141];
 let currentMonth=null, allOmisos=[], currentPage=1;
@@ -220,7 +220,7 @@ async function driveListFiles(){const r=await fetch('https://www.googleapis.com/
 async function driveDownload(id){const r=await fetch('https://www.googleapis.com/drive/v3/files/'+id+'?alt=media&key='+API_KEY);if(!r.ok)throw new Error('Drive dl: '+r.status);return await r.arrayBuffer();}
 
 // Hospedaje: RFC=A(0), Contrib=B(1), Periodo=E(4), Rec=R(17)-O(14)
-const HSP_RFC=0, HSP_CONTRIB=1, HSP_PERIODO=4, HSP_R=17, HSP_O=14;
+const HSP_RFC=0, HSP_CONTRIB=1, HSP_PERIODO=5, HSP_R=17, HSP_O=14;
 
 function _findDataStart(rows,col){for(let i=0;i<Math.min(20,rows.length);i++){const v=String(rows[i][col]||'').trim();if(v.length>=12&&!/^[a-zA-Z\s]+$/.test(v))return i;}return -1;}
 
