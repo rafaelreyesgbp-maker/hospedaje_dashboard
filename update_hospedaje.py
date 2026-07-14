@@ -264,6 +264,30 @@ def compute_month(month_num, all_month_data):
         s["monto"] = round(s["monto"])
         s["omisos"].sort(key=lambda x: -x["avg"])
 
+    # Pagadores del mes (RFC que pagaron, con total e historial de periodos)
+    pag_map = {}
+    for r in cur:
+        rfc = r.get("rfc", "")
+        if not rfc:
+            continue
+        if rfc not in pag_map:
+            pag_map[rfc] = {"rfc": rfc, "contrib": r.get("contrib", ""), "total": 0.0, "periodos": set()}
+        pag_map[rfc]["total"] += r["recaudacion"]
+        p = str(r.get("periodo", ""))
+        if len(p) == 6:
+            pag_map[rfc]["periodos"].add(p)
+        if not pag_map[rfc]["contrib"] and r.get("contrib"):
+            pag_map[rfc]["contrib"] = r["contrib"]
+    pagadores = sorted([
+        {
+            "rfc":      v["rfc"],
+            "contrib":  v["contrib"],
+            "total":    round(v["total"]),
+            "periodos": [format_period(p) for p in sorted(v["periodos"])],
+        }
+        for v in pag_map.values()
+    ], key=lambda x: -x["total"])
+
     month_labels = {
         1:"Enero",2:"Febrero",3:"Marzo",4:"Abril",5:"Mayo",6:"Junio",
         7:"Julio",8:"Agosto",9:"Septiembre",10:"Octubre",11:"Noviembre",12:"Diciembre",
@@ -284,6 +308,7 @@ def compute_month(month_num, all_month_data):
         "pct_proyeccion":    proyeccion / meta * 100 if meta else 0,
         "segmentos":         segments,
         "omisos":            omisos[:5000],
+        "pagadores":         pagadores,
     }
 
 
